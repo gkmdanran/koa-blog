@@ -1,0 +1,12 @@
+const Router=require('koa-router')
+const SystemUserRouter=new Router({prefix:'/systemuser'})
+const controller=require('../controller/SystemUserController')
+const middle=require('../middleware/SystemUserMiddle')
+const {verifyAuth}=require('../middleware/LoginMiddle')
+SystemUserRouter.get('/list',verifyAuth,controller.list)
+SystemUserRouter.post('/delete',verifyAuth,controller.deleteUser)
+SystemUserRouter.post('/add',verifyAuth,middle.verifyAddUser,controller.add)
+SystemUserRouter.get('/detail',verifyAuth,controller.detail)
+SystemUserRouter.post('/edit',verifyAuth,controller.edit)
+SystemUserRouter.post('/password',verifyAuth,middle.verifyPassword,controller.changePasssword)
+module.exports=SystemUserRouter

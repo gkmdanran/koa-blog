@@ -1,0 +1,25 @@
+const Koa=require('koa')
+const app=new Koa()
+const cors = require('koa2-cors')
+const bodyParser=require('koa-bodyparser')
+const SystemUserRouter=require('../router/SystemUserRouter')
+const LoinRouter=require('../router/LoginRouter')
+const CityRouter=require('../router/CityRouter')
+const SchoolRouter=require('../router/SchoolRouter')
+const ClientRouter=require('../router/ClientRouter')
+const LoseRouter=require('../router/LoseRouter')
+const ShopRouter=require('../router/ShopRouter')
+const ArticleRouter=require('../router/ArticleRouter')
+app.use(cors());
+app.use(bodyParser())
+
+app.use(SystemUserRouter.routes())
+app.use(LoinRouter.routes())
+app.use(CityRouter.routes())
+app.use(SchoolRouter.routes())
+app.use(ClientRouter.routes())
+app.use(LoseRouter.routes())
+app.use(ShopRouter.routes())
+app.use(ArticleRouter.routes())
+
+module.exports=app
