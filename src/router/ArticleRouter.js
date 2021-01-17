@@ -5,4 +5,7 @@ const middle=require('../middleware/LoginMiddle')
 ArticleRouter.get('/list',middle.verifyAuth,controller.list)
 ArticleRouter.post('/delete',middle.verifyAuth,controller.deleteArticle)
 ArticleRouter.post('/hide',middle.verifyAuth,controller.hideArticle)
+ArticleRouter.post('/add',middle.verifyAuth,controller.addArticle)
+ArticleRouter.get('/detail',middle.verifyAuth,controller.detail)
+ArticleRouter.post('/edit',middle.verifyAuth,controller.edit)
 module.exports=ArticleRouter

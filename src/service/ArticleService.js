@@ -1,4 +1,5 @@
 const connection=require('../app/database')
+const uuid=require('node-uuid')
 const list=async (searchQuery,manage_city_id)=>{
     const {title='',page=1,limit=10}=searchQuery
     var offset=(page-1)*limit
@@ -42,8 +43,44 @@ const hideArticle=async(type,id)=>{
         return false
     }
 }
+const addArticle=async(article)=>{
+    const {writer_id,title,content,html_content,city_id}=article
+    const statement=`INSERT INTO article (id,writer_id,title,content,html_content,status,city_id) VALUES (?,?,?,?,?,0,?)`
+    try {
+        const [result]=await connection.execute(statement,[uuid.v4(),writer_id,title,content,html_content,city_id])
+        return result
+    } catch (error) {
+        console.log(error)
+        return false
+    }
+}
+const getArticle=async(id)=>{
+    
+    const statement=`select * from article where id=?`
+    try {
+        const [result]=await connection.execute(statement,[id])
+        return result
+    } catch (error) {
+        console.log(error)
+        return false
+    }
+}
+const edit=async (ctx)=>{
+    const {id,writer_id,title,content,html_content}=ctx.request.body
+    const statement=`UPDATE article SET writer_id=?,title=?,content=?,html_content=? WHERE id=?`
+    try {
+        const [result]=await connection.execute(statement,[writer_id,title,content,html_content,id])
+        return result
+    } catch (error) {
+        console.log(error)
+        return false
+    }
+}
 module.exports={
     list,
     deleteArticle,
-    hideArticle
+    hideArticle,
+    addArticle,
+    getArticle,
+    edit
 }

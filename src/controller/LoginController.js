@@ -12,6 +12,11 @@ const login=async (ctx)=>{
         id,username,role,manage_city_id,token
     })
 }
+const checkLogin=async (ctx)=>{
+    
+    return ctx.body=successRes()
+}
 module.exports={
-    login
+    login,
+    checkLogin
 }
