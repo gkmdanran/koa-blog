@@ -4,8 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon ./src/main.js"
+    "start": "nodemon ./src/index.js"
   },
   "keywords": [],
   "author": "",
@@ -22,5 +21,8 @@
     "md5-node": "^1.0.1",
     "mysql2": "^2.2.5",
     "node-uuid": "^1.4.8"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.15"
   }
 }
