@@ -13,7 +13,7 @@ const pageQuery = async (page, size, query,) => {
             list
         }
     } catch (error) {
-        console.log(error)
+        console.log('数据库查询错误', error)
         return false
     }
 }

@@ -8,7 +8,7 @@ const systemLogin = async (ctx) => {
     const token = jwt.sign({ id, username }, SERCET_KEY, {
         expiresIn: 60 * 60 * 6
     })
-    return ctx.body = response.successRes({
+    return response.successRes(ctx, {
         id, username, token
     }, '登录成功')
 }

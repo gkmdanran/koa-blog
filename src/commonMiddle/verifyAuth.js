@@ -11,8 +11,7 @@ const verifyAuth = async (ctx, next) => {
         ctx.user = result
         await next()
     } catch (err) {
-        console.log(err)
-        return ctx.body = response.errorRes('暂无权限，请登录后再操作！', '401')
+        return response.errorRes(ctx,'暂无权限，请登录后再操作！', '401')
     }
 }
 module.exports = verifyAuth
