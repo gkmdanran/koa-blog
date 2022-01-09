@@ -17,7 +17,6 @@ const systemLogin = async (ctx) => {
 const changePassword = async (ctx) => {
     const { newPassword } = ctx.request.body
     const { username } = ctx.user
-    console.log(2,username,newPassword)
     let mdPassword = md5(md5(newPassword) + SERCET_KEY)
     const result = await service.changePassword(username, mdPassword)
     return response.combineRes(ctx, result, username)

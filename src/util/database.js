@@ -1,5 +1,5 @@
 const connection = require('../app/database')
-const pageQuery = async (page, size, query,) => {
+const pageQuery = async (page = 1, size = 10, query,) => {
     const statement = `${query} limit ${(page - 1) * size},${size}`
     let total = 0
     try {

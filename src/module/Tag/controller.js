@@ -8,9 +8,15 @@ const getTagList = async (ctx) => {
 const delTag = async (ctx) => {
     const { id } = ctx.request.body
     const result = await service.delTag(id)
-    return response.combineRes(ctx, result,id,'删除成功',200)
+    return response.combineRes(ctx, result, id, '删除成功', 200)
+}
+const addTag = async (ctx) => {
+    const { type, name } = ctx.request.body
+    const result = await service.addTag(type, name)
+    return response.combineRes(ctx, result, { type, name, id: result.insertId }, '添加成功', 200)
 }
 module.exports = {
     getTagList,
-    delTag
+    delTag,
+    addTag
 }

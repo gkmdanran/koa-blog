@@ -4,7 +4,6 @@ const getUser = async (username) => {
     return database.executeSql(sql, [username])
 }
 const changePassword = async (username, password) => {
-    console.log(username,password)
     const sql = `UPDATE user SET password=? where username=?`
     return database.executeSql(sql, [password, username])
 }
