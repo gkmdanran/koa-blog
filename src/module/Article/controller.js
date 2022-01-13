@@ -20,19 +20,25 @@ const hideArticle = async (ctx) => {
     return response.combineRes(ctx, result, id, '操作成功', 200)
 }
 const getArticle = async (ctx) => {
-    const { title, page, size ,tag} = ctx.request.query
-    const result = await service.getArticle(page, size, title,tag)
+    const { title, page, size, tag } = ctx.request.query
+    const result = await service.getArticle(page, size, title, tag)
     return response.combineRes(ctx, result)
 }
-const delArticle= async (ctx) => {
+const delArticle = async (ctx) => {
     const { id } = ctx.request.body
     const result = await service.delArticle(id)
     return response.combineRes(ctx, result, id, '删除成功', 200)
+}
+const detailArticle = async (ctx) => {
+    const { id } = ctx.request.query
+    const result = await service.detailArticle(id)
+    return response.combineRes(ctx, result)
 }
 module.exports = {
     addArticle,
     topArticle,
     hideArticle,
     getArticle,
-    delArticle
+    delArticle,
+    detailArticle
 }

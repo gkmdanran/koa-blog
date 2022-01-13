@@ -31,10 +31,27 @@ const delArticle = async (id) => {
     const sql2 = `delete from tag_article where articleid =?`
     return database.executeSql(sql2, [id])
 }
+const detailArticle = async (id) => {
+    const sql = `select link,title,description,mdValue from article where id=?`
+    const res1 = await database.executeSql(sql, [id])
+    const articleDetail = res1.list[0]
+    const sql2 = `select tagid from tag_article where articleid=?`
+    const [list] = await database.executeSql(sql2, [id])
+    let str = ''
+    for (let tag in list) {
+        str += "'" + tag.tagid + "'" + ','
+    }
+    str = str.substr(0, str.length - 1)
+    const sql3 = `select id,name,type from tag where id in${str}`
+    const res3 = await database.executeSql(sql3)
+    articleDetail['tagList'] = res3.list
+    return articleDetail
+}
 module.exports = {
     addArticle,
     topArticle,
     hideArticle,
     getArticle,
-    delArticle
+    delArticle,
+    detailArticle
 }
