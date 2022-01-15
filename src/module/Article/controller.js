@@ -34,11 +34,21 @@ const detailArticle = async (ctx) => {
     const result = await service.detailArticle(id)
     return response.combineRes(ctx, result)
 }
+const editArticle = async (ctx) => {
+    const {id, title, link, tagList, mdValue, description } = ctx.request.body
+    let tagIds = []
+    for (let tag of tagList) {
+        tagIds.push(tag.id)
+    }
+    const result = await service.editArticle(id,title, link, tagIds, mdValue, description)
+    return response.combineRes(ctx, result, null, '发布成功', 200)
+}
 module.exports = {
     addArticle,
     topArticle,
     hideArticle,
     getArticle,
     delArticle,
-    detailArticle
+    detailArticle,
+    editArticle
 }

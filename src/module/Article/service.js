@@ -34,18 +34,34 @@ const delArticle = async (id) => {
 const detailArticle = async (id) => {
     const sql = `select link,title,description,mdValue from article where id=?`
     const res1 = await database.executeSql(sql, [id])
-    const articleDetail = res1.list[0]
+    const articleDetail = res1[0]
     const sql2 = `select tagid from tag_article where articleid=?`
-    const [list] = await database.executeSql(sql2, [id])
+    const res2 = await database.executeSql(sql2, [id])
     let str = ''
-    for (let tag in list) {
-        str += "'" + tag.tagid + "'" + ','
+    for (let tag of res2) {
+        str = str + "'" + tag.tagid + "'" + ','
     }
     str = str.substr(0, str.length - 1)
-    const sql3 = `select id,name,type from tag where id in${str}`
+    const sql3 = `select id,name,type from tag where id in(${str})`
     const res3 = await database.executeSql(sql3)
-    articleDetail['tagList'] = res3.list
+    articleDetail['tagList'] = res3
     return articleDetail
+}
+const editArticle = async (id, title, link, tagIds, mdValue, description) => {
+    let str2 = ''
+    for (let x of tagIds) {
+        str2 += `(${x},'${id}'),`
+    }
+    str2 = str2.substr(0, str2.length - 1)
+    const sql1 = `delete from tag_article where articleid =?`
+    if (!await database.executeSql(sql1, [id])) return false
+
+    const sql2 = `insert into tag_article (tagid,articleid) values${str2};`
+    if (!await database.executeSql(sql2)) return false
+
+    const sql3 = `update article set title=?,link=?,mdValue=?,description=? where id=?`
+    return database.executeSql(sql3, [title, description, mdValue, link, id])
+
 }
 module.exports = {
     addArticle,
@@ -53,5 +69,6 @@ module.exports = {
     hideArticle,
     getArticle,
     delArticle,
-    detailArticle
+    detailArticle,
+    editArticle
 }

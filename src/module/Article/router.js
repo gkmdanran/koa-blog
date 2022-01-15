@@ -9,6 +9,7 @@ ArticleRouter.post('/admin/article/top', verifyAuth, controller.topArticle)
 ArticleRouter.post('/admin/article/hide', verifyAuth, controller.hideArticle)
 ArticleRouter.delete('/admin/article/del', verifyAuth, controller.delArticle)
 ArticleRouter.get('/admin/article/detail', verifyAuth, controller.detailArticle)
+ArticleRouter.put('/admin/article/edit', verifyAuth, middle.verifyAdd, controller.editArticle)
 module.exports = ArticleRouter
 
 
