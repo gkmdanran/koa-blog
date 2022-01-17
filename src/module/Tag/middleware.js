@@ -2,7 +2,7 @@ const response = require('../../util/response')
 const service = require('./service')
 const verifyAdd = async (ctx, next) => {
     const { name } = ctx.request.body
-    const result = await service.getTagList(1, 10, name)
+    const result = await service.getTagList(1, 999999, name)
     if (result === false)
         return response.errorRes(ctx, '数据库错误')
     if (result.list.length >= 1)
