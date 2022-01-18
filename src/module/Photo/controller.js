@@ -18,7 +18,7 @@ const addPhoto = async (ctx) => {
     let random = Math.floor(Math.random() * 6);
     let tagColor = colorList[random]
     const result = await service.addPhoto(id, title, password, tag, tagColor)
-    return response.combineRes(ctx, result, null, '发布成功', 200)
+    return response.combineRes(ctx, result, null, '创建成功', 200)
 }
 module.exports = {
     getPhotoList,

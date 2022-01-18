@@ -1,7 +1,7 @@
 const database = require('../../util/database')
 
 const getChatList = async (page, size, queryPeople, queryDate) => {
-    const sql = `select * from chat where chatName like '%${queryPeople}%' and DATE_FORMAT(createAt,'%Y-%m-%d') like '%${queryDate}%'`
+    const sql = `select * from chat where chatName like '%${queryPeople}%' and DATE_FORMAT(createAt,'%Y-%m-%d') like '%${queryDate}%' order by createAt desc`
     return database.pageQuery(page, size, sql)
 }
 const delChat = async (ids) => {

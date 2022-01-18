@@ -22,7 +22,7 @@ const hideArticle = async (id) => {
     return database.executeSql(sql, [id])
 }
 const getArticle = async (page, size, title, tag) => {
-    const sql = `select createAt,left(description,100) as description,id,isHide,isTop,link,star,title from article where title like '%${title}%'`
+    const sql = `select createAt,left(description,100) as description,id,isHide,isTop,link,star,title from article where title like '%${title}%' order by createAt desc`
     return database.pageQuery(page, size, sql)
 }
 const delArticle = async (id) => {
