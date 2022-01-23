@@ -1,6 +1,7 @@
 const service = require('./service')
 const response = require('../../util/response')
 const { v4: uuidv4 } = require('uuid');
+
 const getPhotoList = async (ctx) => {
     const { page, size } = ctx.request.query
     const result = await service.getPhotoList(page, size)
@@ -20,8 +21,24 @@ const addPhoto = async (ctx) => {
     const result = await service.addPhoto(id, title, password, tag, tagColor)
     return response.combineRes(ctx, result, null, '创建成功', 200)
 }
+const detailPhoto = async (ctx) => {
+    const { id } = ctx.request.query
+    const result = await service.detailPhoto(id)
+    return response.combineRes(ctx, result[0])
+}
+const editPhoto = async (ctx) => {
+    const { id, title, tag, password } = ctx.request.body
+    const result = await service.editPhoto(id, title, tag, password)
+    return response.combineRes(ctx, result, id, '编辑成功', 200)
+}
+const uploadPhoto = async (ctx) => {
+    console.log(ctx.files)
+}
 module.exports = {
     getPhotoList,
     delPhoto,
-    addPhoto
+    addPhoto,
+    detailPhoto,
+    editPhoto,
+    uploadPhoto
 }

@@ -16,9 +16,20 @@ const addPhoto = async (id, title, password, tag, tagColor) => {
     const sql = `insert into photo (id,title,password,tag,tagcolor,cover) values(?,?,?,?,?,?)`
     return database.executeSql(sql, [id, title, password, tag, tagColor, cover])
 }
+const detailPhoto = async (id) => {
+    const sql = `select id,title,tag,password from photo where id=?`
+    return database.executeSql(sql, [id])
+}
+const editPhoto = async (id, title, tag, password) => {
+    console.log(id, title, tag, password)
+    const sql = `update photo set title=?,tag=?,password=? where id=?`
+    return database.executeSql(sql, [title, tag, password, id])
+}
 module.exports = {
     getPhoto,
     getPhotoList,
     delPhoto,
-    addPhoto
+    addPhoto,
+    detailPhoto,
+    editPhoto
 }
