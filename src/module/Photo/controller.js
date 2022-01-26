@@ -1,7 +1,9 @@
 const service = require('./service')
 const response = require('../../util/response')
 const { v4: uuidv4 } = require('uuid');
-
+const {
+    APP_BASE, APP_PORT
+} = require('../../app/config')
 const getPhotoList = async (ctx) => {
     const { page, size } = ctx.request.query
     const result = await service.getPhotoList(page, size)
@@ -22,9 +24,9 @@ const addPhoto = async (ctx) => {
     return response.combineRes(ctx, result, null, '创建成功', 200)
 }
 const detailPhoto = async (ctx) => {
-    const { id } = ctx.request.query
-    const result = await service.detailPhoto(id)
-    return response.combineRes(ctx, result[0])
+    const { id, page, size } = ctx.request.query
+    const result = await service.detailPhoto(id, page, size)
+    return response.combineRes(ctx, result)
 }
 const editPhoto = async (ctx) => {
     const { id, title, tag, password } = ctx.request.body
@@ -32,7 +34,25 @@ const editPhoto = async (ctx) => {
     return response.combineRes(ctx, result, id, '编辑成功', 200)
 }
 const uploadPhoto = async (ctx) => {
-    console.log(ctx.files)
+    let picarr = []
+    for (let i = 0; i < ctx.files.length; i++) {
+        picarr.push({
+            photoid: ctx.request.body.id,
+            url: `${APP_BASE}:${APP_PORT}/photo/${ctx.files[i].filename}`
+        })
+    }
+    const result = await service.uploadPhoto(picarr)
+    return response.combineRes(ctx, result, result, '上传成功', 200)
+}
+const setCover = async (ctx) => {
+    const { id, url } = ctx.request.body
+    const result = await service.setCover(id, url)
+    return response.combineRes(ctx, result, result, '设置成功', 200)
+}
+const delPictures = async (ctx) => {
+    const { ids } = ctx.request.body
+    const result = await service.delPictures(ids)
+    return response.combineRes(ctx, result, result, '删除成功', 200)
 }
 module.exports = {
     getPhotoList,
@@ -40,5 +60,7 @@ module.exports = {
     addPhoto,
     detailPhoto,
     editPhoto,
-    uploadPhoto
+    uploadPhoto,
+    setCover,
+    delPictures
 }

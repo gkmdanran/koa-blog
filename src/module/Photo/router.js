@@ -10,4 +10,6 @@ PhotoRouter.post('/admin/photo/add', verifyAuth, middle.verifyAdd, controller.ad
 PhotoRouter.get('/admin/photo/detail', verifyAuth, controller.detailPhoto)
 PhotoRouter.put('/admin/photo/edit', verifyAuth, middle.verifyAdd, controller.editPhoto)
 PhotoRouter.post('/admin/photo/upload', verifyAuth, upload.array('files', 9), controller.uploadPhoto)
+PhotoRouter.put('/admin/photo/cover', verifyAuth,  controller.setCover)
+PhotoRouter.delete('/admin/photo/delpic', verifyAuth,  controller.delPictures)
 module.exports = PhotoRouter
