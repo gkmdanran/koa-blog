@@ -17,7 +17,7 @@ const addPhoto = async (id, title, password, tag, tagColor) => {
     return database.executeSql(sql, [id, title, password, tag, tagColor, cover])
 }
 const detailPhoto = async (id, page, size) => {
-    const sql1 = `select id,url from picture where photoid='${id}'`
+    const sql1 = `select id,url,previewUrl,filename,createAt from picture where photoid='${id}' order by createAt desc`
     const picList = await database.pageQuery(page, size, sql1)
     if (!picList) return false
     const sql2 = `select id,title,tag,password from photo where id=?`
@@ -33,10 +33,10 @@ const editPhoto = async (id, title, tag, password) => {
 const uploadPhoto = async (picarr) => {
     let str = ''
     for (let x of picarr) {
-        str += `('${x.photoid}','${x.url}'),`
+        str += `('${x.photoid}','${x.url}','${x.previewUrl}','${x.filename}'),`
     }
     str = str.substr(0, str.length - 1)
-    const sql = `insert into picture (photoid,url) values${str};`
+    const sql = `insert into picture (photoid,url,previewUrl,filename) values${str};`
     return database.executeSql(sql)
 }
 const getPicList = (id) => {

@@ -1,5 +1,7 @@
 const service = require('./service')
 const response = require('../../util/response')
+const fs = require('fs')
+const path = require('path')
 const { v4: uuidv4 } = require('uuid');
 const {
     APP_BASE, APP_PORT
@@ -38,7 +40,9 @@ const uploadPhoto = async (ctx) => {
     for (let i = 0; i < ctx.files.length; i++) {
         picarr.push({
             photoid: ctx.request.body.id,
-            url: `${APP_BASE}:${APP_PORT}/photo/${ctx.files[i].filename}`
+            url: `${APP_BASE}:${APP_PORT}/photo/${ctx.files[i].filename}`,
+            previewUrl: `${APP_BASE}:${APP_PORT}/photo/${ctx.files[i].filename}`,
+            filename: ctx.files[i].filename
         })
     }
     const result = await service.uploadPhoto(picarr)
@@ -50,7 +54,12 @@ const setCover = async (ctx) => {
     return response.combineRes(ctx, result, result, '设置成功', 200)
 }
 const delPictures = async (ctx) => {
-    const { ids } = ctx.request.body
+    const { pics } = ctx.request.body
+    let ids = []
+    for (let i = 0; i < pics.length; i++) {
+        fs.unlinkSync(path.resolve(__dirname, `../../../files/photo/${pics[i].filename}`))
+        ids.push(pics[i].id)
+    }
     const result = await service.delPictures(ids)
     return response.combineRes(ctx, result, result, '删除成功', 200)
 }

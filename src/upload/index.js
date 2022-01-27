@@ -14,6 +14,20 @@ const storage = multer.diskStorage({
         cb(null, fileArray[0] + '-' + Date.now() + '.' + fileExtension)
     }
 })
-const upload = multer({ storage, limits })
+const articleStorage = multer.diskStorage({
+    destination: function (req, file, cb) {
+        cb(null, __dirname + '/../../files/article')
+    },
+    filename: function (req, file, cb) {
+        let fileArray = file.originalname.split('.')
+        let fileExtension = fileArray[fileArray.length - 1]
+        cb(null, fileArray[0] + '-' + Date.now() + '.' + fileExtension)
+    }
+})
+const photoUpload = multer({ storage, limits })
+const articleUpload = multer({
+    storage: articleStorage,
+    limits,
+})
 
-module.exports = { upload }
+module.exports = { photoUpload, articleUpload }

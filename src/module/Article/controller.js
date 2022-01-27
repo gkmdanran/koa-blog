@@ -1,5 +1,8 @@
 const service = require('./service')
 const response = require('../../util/response')
+const {
+    APP_BASE, APP_PORT
+} = require('../../app/config')
 const addArticle = async (ctx) => {
     const { title, link, tagList, mdValue, description } = ctx.request.body
     let tagIds = []
@@ -43,6 +46,12 @@ const editArticle = async (ctx) => {
     const result = await service.editArticle(id,title, link, tagIds, mdValue, description)
     return response.combineRes(ctx, result, null, '发布成功', 200)
 }
+const uploadArticle=async(ctx)=>{
+    let url=`${APP_BASE}:${APP_PORT}/photo/${ctx.files[i].filename}`
+    let type=0
+    const result = await service.uploadArticle(ctx.request.body.id,url,type)
+    return response.combineRes(ctx, result, url, '上传成功', 200)
+}
 module.exports = {
     addArticle,
     topArticle,
@@ -50,5 +59,6 @@ module.exports = {
     getArticle,
     delArticle,
     detailArticle,
-    editArticle
+    editArticle,
+    uploadArticle
 }
