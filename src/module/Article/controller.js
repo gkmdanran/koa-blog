@@ -47,9 +47,9 @@ const editArticle = async (ctx) => {
     return response.combineRes(ctx, result, null, '发布成功', 200)
 }
 const uploadArticle=async(ctx)=>{
-    let url=`${APP_BASE}:${APP_PORT}/photo/${ctx.files[i].filename}`
+    let url=`${APP_BASE}:${APP_PORT}/article/${ctx.file.filename}`
     let type=0
-    const result = await service.uploadArticle(ctx.request.body.id,url,type)
+    const result = await service.uploadArticle(url,type,ctx.file.filename)
     return response.combineRes(ctx, result, url, '上传成功', 200)
 }
 module.exports = {

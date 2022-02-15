@@ -58,7 +58,7 @@ const editArticle = async (id, title, link, tagIds, mdValue, description) => {
     for (let x of tagIds) {
         str += `(${x},'${id}'),`
     }
-    str = str.substr(0, str2.length - 1)
+    str = str.substr(0, str.length - 1)
     const sql1 = `delete from tag_article where articleid =?`
     if (!await database.executeSql(sql1, [id])) return false
 
@@ -66,8 +66,12 @@ const editArticle = async (id, title, link, tagIds, mdValue, description) => {
     if (!await database.executeSql(sql2)) return false
 
     const sql3 = `update article set title=?,link=?,mdValue=?,description=? where id=?`
-    return database.executeSql(sql3, [title, description, mdValue, link, id])
+    return database.executeSql(sql3, [title, link, mdValue, description, id])
 
+}
+const uploadArticle = async (url, type,filename) => {
+    const sql = `insert into filelist (url,type,filename) values(?,?,?)`
+    return database.executeSql(sql, [url, type,filename])
 }
 module.exports = {
     addArticle,
@@ -76,5 +80,6 @@ module.exports = {
     getArticle,
     delArticle,
     detailArticle,
-    editArticle
+    editArticle,
+    uploadArticle
 }
