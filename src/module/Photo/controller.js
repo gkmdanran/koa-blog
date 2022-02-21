@@ -63,6 +63,15 @@ const delPictures = async (ctx) => {
     const result = await service.delPictures(ids)
     return response.combineRes(ctx, result, result, '删除成功', 200)
 }
+const checkPhotoPassword = async (ctx) => {
+    const { id, password } = ctx.request.body
+    const result = await service.checkPhotoPassword(id)
+    if (password == result[0].password) {
+        response.successRes(ctx)
+    } else {
+        response.errorRes(ctx)
+    }
+}
 module.exports = {
     getPhotoList,
     delPhoto,
@@ -71,5 +80,6 @@ module.exports = {
     editPhoto,
     uploadPhoto,
     setCover,
-    delPictures
+    delPictures,
+    checkPhotoPassword
 }

@@ -56,6 +56,10 @@ const delPictures = async (ids) => {
     const sql = `delete from picture where id in (${str})`
     return database.executeSql(sql)
 }
+const checkPhotoPassword=async(id)=>{
+    const sql = `select password from photo where id=?`
+    return database.executeSql(sql, [id])
+}
 module.exports = {
     getPhoto,
     getPhotoList,
@@ -66,5 +70,6 @@ module.exports = {
     uploadPhoto,
     getPicList,
     setCover,
-    delPictures
+    delPictures,
+    checkPhotoPassword
 }
