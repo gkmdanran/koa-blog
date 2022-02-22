@@ -31,12 +31,19 @@ const delArticle = async (id) => {
     const sql2 = `delete from tag_article where articleid =?`
     return database.executeSql(sql2, [id])
 }
-const detailArticle = async (id) => {
-    const sql1 = `select link,title,description,mdValue from article where id=?`
+const detailArticle = async (id, type) => {
+    let sql1 = ''
+    if (type == 'blog') {
+        sql1 = `select id,link,title,description,mdValue,createAt,star from article where id=? and isHide=0`
+    } else {
+        sql1 = `select id,link,title,description,mdValue,createAt,star from article where id=?`
+    }
     const res1 = await database.executeSql(sql1, [id])
     if (!res1) return false
 
     const articleDetail = res1[0]
+    if (!articleDetail) return articleDetail
+
     const sql2 = `select tagid from tag_article where articleid=?`
     const res2 = await database.executeSql(sql2, [id])
     if (!res2) return false
@@ -49,7 +56,6 @@ const detailArticle = async (id) => {
     const sql3 = `select id,name,type from tag where id in(${str})`
     const res3 = await database.executeSql(sql3)
     if (!res3) return false
-
     articleDetail['tagList'] = res3
     return articleDetail
 }
@@ -69,11 +75,24 @@ const editArticle = async (id, title, link, tagIds, mdValue, description) => {
     return database.executeSql(sql3, [title, link, mdValue, description, id])
 
 }
-const uploadArticle = async (url, type,filename) => {
+const uploadArticle = async (url, type, filename) => {
     const sql = `insert into filelist (url,type,filename) values(?,?,?)`
-    return database.executeSql(sql, [url, type,filename])
+    return database.executeSql(sql, [url, type, filename])
+}
+const addStar = async (id) => {
+    const sql = `update article set star=star+1 where id =?`
+    return database.executeSql(sql, [id])
+}
+const getBlogArticleList = async () => {
+    const sql = `select id,title from article where isHide=0 order by createAt desc`
+    return database.executeSql(sql)
+}
+const searchArticle = async (query) => {
+    const sql = `select id,title from article where (title like '%${query}%' or description like '%${query}%') and isHide=0`
+    return database.executeSql(sql)
 }
 module.exports = {
+    addStar,
     addArticle,
     topArticle,
     hideArticle,
@@ -81,5 +100,7 @@ module.exports = {
     delArticle,
     detailArticle,
     editArticle,
-    uploadArticle
+    uploadArticle,
+    getBlogArticleList,
+    searchArticle
 }

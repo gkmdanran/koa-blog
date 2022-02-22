@@ -12,6 +12,11 @@ ArticleRouter.delete('/admin/article/del', verifyAuth, controller.delArticle)
 ArticleRouter.get('/admin/article/detail', verifyAuth, controller.detailArticle)
 ArticleRouter.put('/admin/article/edit', verifyAuth, middle.verifyAdd, controller.editArticle)
 ArticleRouter.post('/admin/article/upload', verifyAuth, articleUpload.single('file'), controller.uploadArticle)
+
+ArticleRouter.get('/blog/article/detail', controller.detailBlogArticle)
+ArticleRouter.post('/blog/article/star', controller.addStar)
+ArticleRouter.get('/blog/article/list', controller.getBlogArticleList)
+ArticleRouter.get('/blog/article/search', controller.searchArticle)
 module.exports = ArticleRouter
 
 

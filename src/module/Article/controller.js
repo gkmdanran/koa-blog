@@ -35,22 +35,47 @@ const delArticle = async (ctx) => {
 const detailArticle = async (ctx) => {
     const { id } = ctx.request.query
     const result = await service.detailArticle(id)
+    if (result === undefined) {
+        return response.errorRes(ctx,'文章不存在')
+    }
+    return response.combineRes(ctx, result)
+}
+const detailBlogArticle = async (ctx) => {
+    const { id } = ctx.request.query
+    const result = await service.detailArticle(id, 'blog')
+    if (result === undefined) {
+        return response.errorRes(ctx,'文章不存在')
+    }
     return response.combineRes(ctx, result)
 }
 const editArticle = async (ctx) => {
-    const {id, title, link, tagList, mdValue, description } = ctx.request.body
+    const { id, title, link, tagList, mdValue, description } = ctx.request.body
     let tagIds = []
     for (let tag of tagList) {
         tagIds.push(tag.id)
     }
-    const result = await service.editArticle(id,title, link, tagIds, mdValue, description)
+    const result = await service.editArticle(id, title, link, tagIds, mdValue, description)
     return response.combineRes(ctx, result, null, '发布成功', 200)
 }
-const uploadArticle=async(ctx)=>{
-    let url=`${APP_BASE}:${APP_PORT}/article/${ctx.file.filename}`
-    let type=0
-    const result = await service.uploadArticle(url,type,ctx.file.filename)
+const uploadArticle = async (ctx) => {
+    let url = `${APP_BASE}:${APP_PORT}/article/${ctx.file.filename}`
+    let type = 0
+    const result = await service.uploadArticle(url, type, ctx.file.filename)
     return response.combineRes(ctx, result, url, '上传成功', 200)
+}
+const addStar = async (ctx) => {
+    const { id } = ctx.request.body
+    const result = await service.addStar(id)
+    return response.combineRes(ctx, result, id, '点赞成功，感谢认可', 200)
+}
+const getBlogArticleList = async (ctx) => {
+    const result = await service.getBlogArticleList()
+    return response.combineRes(ctx, result)
+}
+const searchArticle = async (ctx) => {
+    const { query } = ctx.request.query
+    const result = await service.searchArticle(query)
+    return response.combineRes(ctx, result)
 }
 module.exports = {
     addArticle,
@@ -60,5 +85,9 @@ module.exports = {
     delArticle,
     detailArticle,
     editArticle,
-    uploadArticle
+    uploadArticle,
+    addStar,
+    getBlogArticleList,
+    detailBlogArticle,
+    searchArticle
 }

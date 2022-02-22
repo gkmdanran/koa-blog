@@ -5,7 +5,7 @@ const getTagList = async (page, size, query) => {
     return database.pageQuery(page, size, sql)
 }
 const getBlogTagList = async () => {
-    const sql = `select tag.id,tag.name,tag.type,COUNT(tag_article.tagid) as count from tag left join tag_article on tag.id = tag_article.tagid group by tag.id`
+    const sql = `select tag.id,tag.name,tag.type,COUNT(tag_article.tagid) as count from tag left join tag_article on tag.id = tag_article.tagid group by tag.id order by tag.id desc`
     return database.executeSql(sql)
 }
 const delTag = async (id) => {
