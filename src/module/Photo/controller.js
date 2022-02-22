@@ -28,6 +28,9 @@ const addPhoto = async (ctx) => {
 const detailPhoto = async (ctx) => {
     const { id, page, size } = ctx.request.query
     const result = await service.detailPhoto(id, page, size)
+    if (result == undefined) {
+        return response.errorRes(ctx, '相册不存在')
+    }
     return response.combineRes(ctx, result)
 }
 const editPhoto = async (ctx) => {
@@ -66,7 +69,7 @@ const delPictures = async (ctx) => {
 const checkPhotoPassword = async (ctx) => {
     const { id, password } = ctx.request.body
     const result = await service.checkPhotoPassword(id)
-    if (password == result[0].password) {
+    if (result[0] && password == result[0].password) {
         response.successRes(ctx)
     } else {
         response.errorRes(ctx)

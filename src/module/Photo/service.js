@@ -23,6 +23,7 @@ const detailPhoto = async (id, page, size) => {
     const sql2 = `select id,title,tag,password from photo where id=?`
     const result = await database.executeSql(sql2, [id])
     if (!result) return false
+    if (!result[0]) return result[0]
     result[0]['pictures'] = picList
     return result[0]
 }
@@ -56,7 +57,7 @@ const delPictures = async (ids) => {
     const sql = `delete from picture where id in (${str})`
     return database.executeSql(sql)
 }
-const checkPhotoPassword=async(id)=>{
+const checkPhotoPassword = async (id) => {
     const sql = `select password from photo where id=?`
     return database.executeSql(sql, [id])
 }
