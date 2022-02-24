@@ -5,8 +5,8 @@ const getTagList = async (ctx) => {
     const result = await service.getTagList(page, size, query)
     return response.combineRes(ctx, result)
 }
-const getBlogTagList = async (ctx) => {
-    const result = await service.getBlogTagList()
+const getMenuTagList = async (ctx) => {
+    const result = await service.getMenuTagList()
     return response.combineRes(ctx, result)
 }
 
@@ -22,7 +22,7 @@ const addTag = async (ctx) => {
 }
 module.exports = {
     getTagList,
-    getBlogTagList,
+    getMenuTagList,
     delTag,
     addTag
 }

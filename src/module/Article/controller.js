@@ -35,16 +35,16 @@ const delArticle = async (ctx) => {
 const detailArticle = async (ctx) => {
     const { id } = ctx.request.query
     const result = await service.detailArticle(id)
-    if (result === undefined) {
-        return response.errorRes(ctx,'文章不存在')
+    if (result === null) {
+        return response.errorRes(ctx, '文章不存在')
     }
     return response.combineRes(ctx, result)
 }
 const detailBlogArticle = async (ctx) => {
     const { id } = ctx.request.query
     const result = await service.detailArticle(id, 'blog')
-    if (result === undefined) {
-        return response.errorRes(ctx,'文章不存在')
+    if (result === null) {
+        return response.errorRes(ctx, '文章不存在')
     }
     return response.combineRes(ctx, result)
 }
@@ -68,13 +68,23 @@ const addStar = async (ctx) => {
     const result = await service.addStar(id)
     return response.combineRes(ctx, result, id, '点赞成功，感谢认可', 200)
 }
-const getBlogArticleList = async (ctx) => {
-    const result = await service.getBlogArticleList()
+const getMenuArticleList = async (ctx) => {
+    const result = await service.getMenuArticleList()
     return response.combineRes(ctx, result)
 }
 const searchArticle = async (ctx) => {
     const { query } = ctx.request.query
     const result = await service.searchArticle(query)
+    return response.combineRes(ctx, result)
+}
+const getArticleListBytag = async (ctx) => {
+    const { id, page, size } = ctx.request.query
+    const result = await service.getArticleListBytag(id, page, size)
+    return response.combineRes(ctx, result)
+}
+const getHomeArtilceList = async (ctx) => {
+    const { page, size } = ctx.request.query
+    const result = await service.getHomeArtilceList(page, size)
     return response.combineRes(ctx, result)
 }
 module.exports = {
@@ -87,7 +97,9 @@ module.exports = {
     editArticle,
     uploadArticle,
     addStar,
-    getBlogArticleList,
+    getMenuArticleList,
     detailBlogArticle,
-    searchArticle
+    searchArticle,
+    getArticleListBytag,
+    getHomeArtilceList,
 }

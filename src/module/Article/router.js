@@ -13,10 +13,13 @@ ArticleRouter.get('/admin/article/detail', verifyAuth, controller.detailArticle)
 ArticleRouter.put('/admin/article/edit', verifyAuth, middle.verifyAdd, controller.editArticle)
 ArticleRouter.post('/admin/article/upload', verifyAuth, articleUpload.single('file'), controller.uploadArticle)
 
+ArticleRouter.get('/blog/article/list/home',controller.getHomeArtilceList)
+ArticleRouter.get('/blog/article/list/tag', controller.getArticleListBytag)
 ArticleRouter.get('/blog/article/detail', controller.detailBlogArticle)
 ArticleRouter.post('/blog/article/star', controller.addStar)
-ArticleRouter.get('/blog/article/list', controller.getBlogArticleList)
+ArticleRouter.get('/blog/article/list/menu', controller.getMenuArticleList)
 ArticleRouter.get('/blog/article/search', controller.searchArticle)
+
 module.exports = ArticleRouter
 
 

@@ -4,7 +4,7 @@ const getTagList = async (page, size, query) => {
     const sql = `select tag.id,tag.name,tag.type,COUNT(tag_article.tagid) as count from tag left join tag_article on tag.id = tag_article.tagid where tag.name like '%${query}%' group by tag.id order by tag.id desc`
     return database.pageQuery(page, size, sql)
 }
-const getBlogTagList = async () => {
+const getMenuTagList = async () => {
     const sql = `select tag.id,tag.name,tag.type,COUNT(tag_article.tagid) as count from tag left join tag_article on tag.id = tag_article.tagid group by tag.id order by tag.id desc`
     return database.executeSql(sql)
 }
@@ -23,7 +23,7 @@ const verifyDel = async (id) => {
 
 module.exports = {
     getTagList,
-    getBlogTagList,
+    getMenuTagList,
     delTag,
     addTag,
     verifyDel

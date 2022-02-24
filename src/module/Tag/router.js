@@ -8,6 +8,6 @@ TagRouter.get('/admin/tag/list', verifyAuth, controller.getTagList)
 TagRouter.delete('/admin/tag/del', verifyAuth, middle.verifyDel, controller.delTag)
 TagRouter.post('/admin/tag/add', verifyAuth, middle.verifyAdd, controller.addTag)
 
-TagRouter.get('/blog/tag/list', controller.getBlogTagList)
+TagRouter.get('/blog/tag/list/menu', controller.getMenuTagList)
 
 module.exports = TagRouter
