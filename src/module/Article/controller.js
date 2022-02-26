@@ -80,6 +80,7 @@ const searchArticle = async (ctx) => {
 const getArticleListBytag = async (ctx) => {
     const { id, page, size } = ctx.request.query
     const result = await service.getArticleListBytag(id, page, size)
+    if(result==null)return response.errorRes(ctx)
     return response.combineRes(ctx, result)
 }
 const getHomeArtilceList = async (ctx) => {

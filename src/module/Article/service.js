@@ -130,7 +130,7 @@ const getArticleListBytag = async (id, page, size) => {
     const sql = `
             select 
                 article.createAt,
-                left(article.description,200) as description,
+                left(article.description,400) as description,
                 article.id,
                 article.isHide,
                 article.link,
@@ -159,8 +159,9 @@ const getArticleListBytag = async (id, page, size) => {
         articleList[i]['tag'] = tagList
     }
     const sql3 = `select * from tag where id=?`
-    const tag = await database.executeSql(sql3,[id])
+    const tag = await database.executeSql(sql3, [id])
     if (!tag) return false
+    if (tag.length == 0) return null
     return {
         tag: tag[0],
         list: articleList,
@@ -173,7 +174,7 @@ const getHomeArtilceList = async (page, size) => {
     const sql = `
             select 
                 article.createAt,
-                left(article.description,200) as description,
+                left(article.description,400) as description,
                 article.id,
                 article.isHide,
                 article.isTop,
@@ -189,8 +190,8 @@ const getHomeArtilceList = async (page, size) => {
                 isHide=0
             group by article.id
             order by 
-                article.createAt desc,
-                article.isTop desc
+                article.isTop desc,
+                article.createAt desc
         `
     let res = await database.pageQuery(page, size, sql)
     if (!res) return false
