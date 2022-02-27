@@ -12,6 +12,7 @@ ArticleRouter.delete('/admin/article/del', verifyAuth, controller.delArticle)
 ArticleRouter.get('/admin/article/detail', verifyAuth, controller.detailArticle)
 ArticleRouter.put('/admin/article/edit', verifyAuth, middle.verifyAdd, controller.editArticle)
 ArticleRouter.post('/admin/article/upload', verifyAuth, articleUpload.single('file'), controller.uploadArticle)
+ArticleRouter.get('/admin/article/download', verifyAuth,controller.downloadArticle)
 
 ArticleRouter.get('/blog/article/list/home',controller.getHomeArtilceList)
 ArticleRouter.get('/blog/article/list/tag', controller.getArticleListBytag)

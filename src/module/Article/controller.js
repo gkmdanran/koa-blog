@@ -80,13 +80,23 @@ const searchArticle = async (ctx) => {
 const getArticleListBytag = async (ctx) => {
     const { id, page, size } = ctx.request.query
     const result = await service.getArticleListBytag(id, page, size)
-    if(result==null)return response.errorRes(ctx)
+    if (result == null) return response.errorRes(ctx)
     return response.combineRes(ctx, result)
 }
 const getHomeArtilceList = async (ctx) => {
     const { page, size } = ctx.request.query
     const result = await service.getHomeArtilceList(page, size)
     return response.combineRes(ctx, result)
+}
+const downloadArticle = async (ctx) => {
+    const { id } = ctx.request.query
+    const result = await service.downloadArticle(id)
+    if (result == false) return response.errorRes(ctx, '数据库异常', 500)
+    if (!result[0]) return response.errorRes(ctx, '文章不存在')
+    let filename = encodeURIComponent(`${result[0].title}.md`)
+    ctx.set('Content-disposition', 'attachment; filename=' + filename)
+    ctx.set('Content-type', 'application/force-download')
+    ctx.body = result[0].mdValue
 }
 module.exports = {
     addArticle,
@@ -103,4 +113,5 @@ module.exports = {
     searchArticle,
     getArticleListBytag,
     getHomeArtilceList,
+    downloadArticle
 }

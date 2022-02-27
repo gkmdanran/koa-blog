@@ -209,6 +209,10 @@ const getHomeArtilceList = async (page, size) => {
         size: res.size
     }
 }
+const downloadArticle = async (id) => {
+    const sql = `select title,mdValue from article where id=?`
+    return database.executeSql(sql, [id])
+}
 module.exports = {
     addStar,
     addArticle,
@@ -222,5 +226,6 @@ module.exports = {
     getMenuArticleList,
     searchArticle,
     getArticleListBytag,
-    getHomeArtilceList
+    getHomeArtilceList,
+    downloadArticle
 }
