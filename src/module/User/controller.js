@@ -21,7 +21,12 @@ const changePassword = async (ctx) => {
     const result = await service.changePassword(username, mdPassword)
     return response.combineRes(ctx, result, username)
 }
+const checkLogin = async (ctx) => {
+    return response.successRes(ctx)
+}
+
 module.exports = {
     systemLogin,
-    changePassword
+    changePassword,
+    checkLogin
 }

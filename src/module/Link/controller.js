@@ -1,7 +1,7 @@
 const service = require('./service')
 const response = require('../../util/response')
 const getLinkList = async (ctx) => {
-    const {title,description,page,size } = ctx.request.query
+    const {title='',description='',page,size } = ctx.request.query
     const result = await service.getLinkList(title,description,page,size )
     return response.combineRes(ctx, result)
 }

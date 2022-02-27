@@ -9,4 +9,6 @@ LinkRouter.delete('/admin/link/del', verifyAuth, controller.delLink)
 LinkRouter.post('/admin/link/add', verifyAuth, controller.addLink)
 LinkRouter.get('/admin/link/detail', verifyAuth, controller.detailLink)
 LinkRouter.put('/admin/link/edit', verifyAuth, controller.editLink)
+
+LinkRouter.get('/blog/link/list', controller.getLinkList)
 module.exports = LinkRouter

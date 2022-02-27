@@ -5,5 +5,6 @@ const middle = require('./middleware')
 const verifyAuth = require('../../commonMiddle/verifyAuth')
 UserRouter.post('/login', middle.verifyLogin, controller.systemLogin)
 UserRouter.put('/password', verifyAuth, middle.verifyPassword, controller.changePassword)
+UserRouter.get('/checklogin',verifyAuth,controller.checkLogin)
 
 module.exports = UserRouter

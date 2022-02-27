@@ -2,6 +2,7 @@ const service = require('./service')
 const response = require('../../util/response')
 const fs = require('fs')
 const path = require('path')
+const Jimp = require('jimp')
 const { v4: uuidv4 } = require('uuid');
 const {
     APP_BASE, APP_PORT
@@ -40,12 +41,19 @@ const editPhoto = async (ctx) => {
 }
 const uploadPhoto = async (ctx) => {
     let picarr = []
-    for (let i = 0; i < ctx.files.length; i++) {
+    for (let file of ctx.files) {
+        let fileArray = file.filename.split('.')
+        let fileExtension = fileArray[fileArray.length - 1]
+        let previewFilename = `${fileArray[0]}-small.${fileExtension}`
+        let destPath = path.join(file.destination, previewFilename)
+        Jimp.read(file.path).then(img=>{
+            img.resize(320,Jimp.AUTO).write(destPath)
+        })
         picarr.push({
             photoid: ctx.request.body.id,
-            url: `${APP_BASE}:${APP_PORT}/photo/${ctx.files[i].filename}`,
-            previewUrl: `${APP_BASE}:${APP_PORT}/photo/${ctx.files[i].filename}`,
-            filename: ctx.files[i].filename
+            url: `${APP_BASE}:${APP_PORT}/photo/${file.filename}`,
+            previewUrl: `${APP_BASE}:${APP_PORT}/photo/${previewFilename}`,
+            filename: file.filename
         })
     }
     const result = await service.uploadPhoto(picarr)
@@ -60,7 +68,11 @@ const delPictures = async (ctx) => {
     const { pics } = ctx.request.body
     let ids = []
     for (let i = 0; i < pics.length; i++) {
+        let fileArray = pics[i].filename.split('.')
+        let fileExtension = fileArray[fileArray.length - 1]
+        let previewFilename = `${fileArray[0]}-small.${fileExtension}`
         fs.unlinkSync(path.resolve(__dirname, `../../../files/photo/${pics[i].filename}`))
+        fs.unlinkSync(path.resolve(__dirname, `../../../files/photo/${previewFilename}`))
         ids.push(pics[i].id)
     }
     const result = await service.delPictures(ids)
